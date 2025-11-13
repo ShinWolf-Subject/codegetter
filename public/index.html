@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Code Getter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-code text-blue-500 mr-2"></i>HTML Code Getter
+            </h1>
+            <p class="text-gray-600">Enter a URL to fetch and display its HTML code with syntax highlighting</p>
+        </header>
+
+        <!-- Input Section -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-grow">
+                    <label for="url-input" class="block text-sm font-medium text-gray-700 mb-1">
+                        Website URL
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-link text-gray-400"></i>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="url-input" 
+                            placeholder="https://example.com" 
+                            class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value="https://example.com"
+                        >
+                    </div>
+                </div>
+                <div class="flex items-end">
+                    <button 
+                        id="fetch-btn" 
+                        class="w-full md:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition duration-200 flex items-center justify-center"
+                    >
+                        <i class="fas fa-download mr-2"></i> Get HTML
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Error Message -->
+            <div id="error-message" class="mt-4 hidden">
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p id="error-text" class="text-sm text-red-700"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading-indicator" class="hidden mb-8">
+            <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                <p class="mt-4 text-gray-600">Fetching HTML code...</p>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-gray-800 text-white px-4 py-3 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-code mr-2"></i>
+                        <span>HTML Code</span>
+                        <span id="content-type" class="ml-3 text-sm text-gray-300 bg-gray-700 px-2 py-1 rounded"></span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="copy-btn" class="text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded flex items-center transition duration-200">
+                            <i class="far fa-copy mr-1"></i> Copy
+                        </button>
+                        <button id="toggle-wrap" class="text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded flex items-center transition duration-200">
+                            <i class="fas fa-text-width mr-1"></i> Toggle Wrap
+                        </button>
+                    </div>
+                </div>
+                <div class="p-0 overflow-x-auto bg-gray-900">
+                    <pre class="m-0"><code id="html-output" class="hljs language-html text-sm"></code></pre>
+                </div>
+                <div class="bg-gray-800 text-white px-4 py-2 text-xs flex justify-between items-center">
+                    <span id="char-count">0 characters</span>
+                    <span id="line-count">0 lines</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mt-12 bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-info-circle text-blue-500 mr-2"></i> How to Use
+            </h2>
+            <ol class="list-decimal pl-5 space-y-2 text-gray-600">
+                <li>Enter a website URL in the input field (include http:// or https://)</li>
+                <li>Click the "Get HTML" button to fetch the HTML code</li>
+                <li>View the syntax-highlighted HTML code in the results section</li>
+                <li>Use the "Copy" button to copy the code to your clipboard</li>
+                <li>Use "Toggle Wrap" to enable/disable text wrapping</li>
+            </ol>
+            <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                <p class="text-sm text-blue-800 flex items-start">
+                    <i class="fas fa-server mt-0.5 mr-2"></i>
+                    <span>This version uses a Node.js backend server, which helps bypass CORS restrictions and provides better error handling than client-side only solutions.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlInput = document.getElementById('url-input');
+            const fetchBtn = document.getElementById('fetch-btn');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const resultsSection = document.getElementById('results-section');
+            const htmlOutput = document.getElementById('html-output');
+            const copyBtn = document.getElementById('copy-btn');
+            const toggleWrapBtn = document.getElementById('toggle-wrap');
+            const errorMessage = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const contentType = document.getElementById('content-type');
+            const charCount = document.getElementById('char-count');
+            const lineCount = document.getElementById('line-count');
+
+            // Initialize highlight.js
+            hljs.highlightAll();
+
+            // Fetch HTML code
+            fetchBtn.addEventListener('click', async function() {
+                const url = urlInput.value.trim();
+                
+                if (!url) {
+                    showError('Please enter a URL');
+                    return;
+                }
+                
+                // Validate URL format
+                try {
+                    new URL(url);
+                } catch (e) {
+                    showError('Please enter a valid URL (include http:// or https://)');
+                    return;
+                }
+                
+                // Show loading indicator
+                loadingIndicator.classList.remove('hidden');
+                resultsSection.classList.add('hidden');
+                errorMessage.classList.add('hidden');
+                
+                try {
+                    const response = await fetch('/api/fetch-html', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ url })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Failed to fetch HTML');
+                    }
+
+                    if (!data.success) {
+                        throw new Error(data.error || 'Unknown error occurred');
+                    }
+
+                    // Display the HTML code with syntax highlighting
+                    htmlOutput.textContent = data.html;
+                    hljs.highlightElement(htmlOutput);
+                    
+                    // Update metadata
+                    contentType.textContent = data.contentType || 'text/html';
+                    charCount.textContent = `${data.html.length} characters`;
+                    lineCount.textContent = `${data.html.split('\n').length} lines`;
+                    
+                    resultsSection.classList.remove('hidden');
+                } catch (error) {
+                    console.error('Error fetching HTML:', error);
+                    showError(error.message);
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                }
+            });
+
+            // Copy to clipboard
+            copyBtn.addEventListener('click', function() {
+                const text = htmlOutput.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    // Show feedback
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> Copied!';
+                    copyBtn.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                    copyBtn.classList.add('bg-green-600');
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                        copyBtn.classList.remove('bg-green-600');
+                        copyBtn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    showError('Failed to copy to clipboard');
+                });
+            });
+
+            // Toggle text wrapping
+            toggleWrapBtn.addEventListener('click', function() {
+                htmlOutput.classList.toggle('whitespace-pre-wrap');
+                htmlOutput.classList.toggle('whitespace-pre');
+                
+                if (htmlOutput.classList.contains('whitespace-pre-wrap')) {
+                    toggleWrapBtn.innerHTML = '<i class="fas fa-text-width mr-1"></i> Disable Wrap';
+                } else {
+                    toggleWrapBtn.innerHTML = '<i class="fas fa-text-width mr-1"></i> Enable Wrap';
+                }
+            });
+
+            // Error display function
+            function showError(message) {
+                errorText.textContent = message;
+                errorMessage.classList.remove('hidden');
+                resultsSection.classList.add('hidden');
+                loadingIndicator.classList.add('hidden');
+            }
+
+            // Allow pressing Enter to fetch
+            urlInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    fetchBtn.click();
+                }
+            });
+
+            // Auto-select URL on focus for easy editing
+            urlInput.addEventListener('focus', function() {
+                this.select();
+            });
+        });
+    </script>
+</body>
+</html>
