@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     errorMessage.classList.add('hidden');
 
     try {
-      const response = await fetch('/api/fetch-html', {
+      const response = await fetch('/api/fetch', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

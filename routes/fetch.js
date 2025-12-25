@@ -3,7 +3,7 @@ const axios = require('axios');
 const router = express.Router();
 
 // CORS proxy endpoint
-router.post('/fetch-html', async (req, res) => {
+router.post('/fetch', async (req, res) => {
   try {
     const { url } = req.body;
     
