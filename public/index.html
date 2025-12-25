@@ -6,12 +6,11 @@
     <title>HTML Code Getter</title>
     <link rel="icon" type="image/png" href="/Nv.png" />
     <link rel="stylesheet" href="/libs/atom-one-dark.min.css" />
-    <link rel="stylesheet" href="/libs/atom-one-dark.min.css" />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@300..700&display=swap" />
     <script src="/libs/tailwindcss.js"></script>
     <script src="/libs/kit.fa.js"></script>
     <script src="/libs/highlight.min.js"></script>
@@ -21,20 +20,27 @@
         theme: {
           extend: {
             fontFamily: {
-              grotesk: [
-                "Space Grotesk",
-                "Montserrat",
-                "Inter",
-                "Segoe UI",
-                "sans-serif"
-              ]
+              comspace: ["Comfortaa", "Space Grotesk", "Inter", "system-ui", "sans-serif"],
+              comfortaa: ["Comfortaa", "system-ui", "sans-serif"],
+              inter: ["Inter", "system-ui", "sans-serif"],
+              montserrat: ["Montserrat", "system-ui", "sans-serif"],
+              opensans: ["Open Sans", "system-ui", "sans-serif"],
+              space: ["Space Grotesk", "system-ui", "sans-serif"],
+              sans: ["Inter", "system-ui", "sans-serif"],
+              clean: ["Open Sans", "Inter", "system-ui", "sans-serif"],
+              ui: ["Inter", "Space Grotesk", "system-ui", "sans-serif"],
+              tech: ["Space Grotesk", "Inter", "system-ui", "sans-serif"],
+              rounded: ["Comfortaa", "Montserrat", "system-ui", "sans-serif"],
+              soft: ["Comfortaa", "Open Sans", "system-ui", "sans-serif"],
+              display: ["Montserrat", "Space Grotesk", "system-ui", "sans-serif"],
+              title: ["Montserrat", "Inter", "system-ui", "sans-serif"],
             }
           }
         }
       }
     </script>
   </head>
-  <body class="bg-gray-100 min-h-screen py-8 font-grotesk">
+  <body class="bg-gray-100 min-h-screen py-8 font-comspace">
     <div class="max-w-6xl mx-auto px-4">
       <header class="text-center mb-10">
         <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
