@@ -25,7 +25,7 @@ try {
 } catch (error) {
   console.error('Error loading routes:', error.message);
   // Create a basic fallback route
-  app.post('/api/fetch-html', (req, res) => {
+  app.post('/api/fetch', (req, res) => {
     res.status(500).json({ 
       error: 'Routes not properly configured. Please check server logs.' 
     });
